@@ -1,0 +1,25 @@
+{
+  "name": "Mongoose-Cheerio-News",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joannebadua/Mongoose-Cheerio-News.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joannebadua/Mongoose-Cheerio-News/issues"
+  },
+  "homepage": "https://github.com/joannebadua/Mongoose-Cheerio-News#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
