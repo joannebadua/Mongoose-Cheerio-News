@@ -24,18 +24,26 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/hawaiiLawmakers", { useNewUrlParser: true });
 
-axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all").then(function(response) {
-    var $ = cheerio.load(response.data);
-    var results = [];
-    $(".noU3").each(function(i, element) {
-        var name = $(element).text();
-        var thingToSave = {
-            name: name,
-            link: $(element).attr("href"),
-          };
-LawmakersModel.create(thingToSave).then(function(stuffFromDb){
-  console.log("stuffFromDB", stuffFromDb)
+// axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all").then(function(response) {
+//     var $ = cheerio.load(response.data);
+//     var results = [];
+//     $(".noU3").each(function(i, element) {
+//         var name = $(element).text();
+//         var thingToSave = {
+//             name: name,
+//             link: $(element).attr("href"),
+//           };
+// LawmakersModel.create(thingToSave).then(function(stuffFromDb){
+//   console.log("stuffFromDB", stuffFromDb)
+// })
+//         });
+//         console.log(results);
+//       });      
+//routes
+app.get("/home", function(req, res) {
+//req for form, res is respond/shoot something to the google chrome
+res.render("home")
 })
-        });
-        console.log(results);
-      });      
+app.listen(3000, function(){
+  console.log("website is on")
+})
