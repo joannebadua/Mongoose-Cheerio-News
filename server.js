@@ -1,7 +1,8 @@
+var express = require("express");
 var cheerio = require("cheerio");
 var axios = require("axios");
 var mongoose = require("mongoose");
-var db = require("./models");
+var LawmakersModel = require("./models/Lawmakers.js");
 
 var PORT = 3000;
 
@@ -10,6 +11,11 @@ var app = express();
 
 // Configure middleware
 // Parse request body as JSON
+var exphbs = require("express-handlebars");
+//configure and set handbars
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+//
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
@@ -23,10 +29,13 @@ axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")
     var results = [];
     $(".noU3").each(function(i, element) {
         var name = $(element).text();
-        results.push({
+        var thingToSave = {
             name: name,
             link: $(element).attr("href"),
-          });
+          };
+LawmakersModel.create(thingToSave).then(function(stuffFromDb){
+  console.log("stuffFromDB", stuffFromDb)
+})
         });
         console.log(results);
       });      
