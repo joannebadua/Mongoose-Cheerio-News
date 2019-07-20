@@ -42,8 +42,29 @@ mongoose.connect("mongodb://localhost/hawaiiLawmakers", { useNewUrlParser: true 
 //routes
 app.get("/home", function(req, res) {
 //req for form, res is respond/shoot something to the google chrome
-res.render("home")
+//think we can do array with handlebars, and we can do for-each on the page
+//on the otherhand, we can do delete and update with ajax
+LawmakersModel.find({}, function(error, found) {
+  // Log any errors if the server encounters one
+  if (error) {
+    console.log(error);
+  }
+  // Otherwise, send the result of this query to the browser
+  else {
+    res.render('home', { Lawmakers: found })
+    //found is good from db
+  }
+});
+
 })
+app.get("/all-lawmakers", function(req, res) {
+  //THIS GETS US ON LIVEWIRE! 
+  //now mongoose stuff because we interact with the db
+  //not connection.query like sql
+  //we imported the model so we don't need to add db.Lawmakers
+
+});
+
 app.listen(3000, function(){
   console.log("website is on")
 })
