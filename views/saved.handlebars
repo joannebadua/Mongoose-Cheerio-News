@@ -1,0 +1,23 @@
+{{>header home = false scraped = true}}
+{{#each lawmakers}}
+//if saved, then render them
+{{#if saved}}
+<div class ="lawmakers-wrap">
+    <p> {{this.lawmakers}}</p>
+    <a href="{{this.link}}"> Article Link</a>
+    <button class="unsaved-btn" data-lmid="{{this._id}}"> Unsaved </button>
+    {{#if lawmakers }}
+    <div data-cid="{{this._id}}">
+        <p class="comment-title">
+            {{this.comment}}</p>
+            <p class="comment-body">{{this.body}}</p>
+        <button> Update</button>
+        <button>Delete</button>
+    </div>
+    {{/if}}
+    {{/each}}
+    {{#unless articles}}
+    <h3>None Scraped Yet</h3>
+    <a href="/"> Go Scrape</a>
+</div>
+
