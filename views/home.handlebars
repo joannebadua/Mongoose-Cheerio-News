@@ -1,5 +1,22 @@
 <h1>hello from handlebars!</h1>
+<div id="comment-form"> 
+    <input id="title">
+    </input>
 
+    <input id="body">
+    </input>
+    <button>Saved</button>
+</div>
  {{#each Lawmakers}}
- <h1>looping test</h1>
+ <h1>{{this.name}}</h1>
+ {{!-- //name is from lawmakers.js name --}}
+<p>{{this.link}}</p>
+<button>Comment</button>
 {{/each}}
+
+
+
+<script>
+    //jquery to hide and then show
+$("#comment-form").hide()
+</script>

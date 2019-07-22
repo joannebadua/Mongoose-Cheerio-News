@@ -2,7 +2,7 @@ var express = require("express");
 var cheerio = require("cheerio");
 var axios = require("axios");
 var mongoose = require("mongoose");
-var LawmakersModel = require("./models/Lawmakers.js");
+var db = require("./models/") //access to both models 
 
 var PORT = 3000;
 
@@ -12,7 +12,7 @@ var app = express();
 // Configure middleware
 // Parse request body as JSON
 var exphbs = require("express-handlebars");
-//configure and set handbars
+//configure view engine and set handlebars
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 //
@@ -44,7 +44,8 @@ app.get("/home", function(req, res) {
 //req for form, res is respond/shoot something to the google chrome
 //think we can do array with handlebars, and we can do for-each on the page
 //on the otherhand, we can do delete and update with ajax
-LawmakersModel.find({}, function(error, found) {
+db.Lawmakers.find({})
+.thenfunction(error, found) {
   // Log any errors if the server encounters one
   if (error) {
     console.log(error);
