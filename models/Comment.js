@@ -19,7 +19,7 @@ createdAt: {
 }
 });
 
-var comment = mongoose.model("Comment", CommentSchema);
-//custom method for tie
+var Comment = mongoose.model("Comment", CommentSchema);
+//custom method for time
 
 module.exports = Comment;

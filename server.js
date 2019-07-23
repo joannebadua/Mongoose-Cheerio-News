@@ -1,3 +1,6 @@
+/*/----------------------------------------
+Setup
+----------------------------------------/*/
 var express = require("express");
 var cheerio = require("cheerio");
 var axios = require("axios");
@@ -6,6 +9,9 @@ var db = require("./models/") //access to both models
 
 var PORT = 3000;
 
+/*/----------------------------------------
+Configuration
+----------------------------------------/*/
 // Initialize Express
 var app = express();
 
@@ -24,48 +30,66 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/hawaiiLawmakers", { useNewUrlParser: true });
 
-// axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all").then(function(response) {
-//     var $ = cheerio.load(response.data);
-//     var results = [];
-//     $(".noU3").each(function(i, element) {
-//         var name = $(element).text();
-//         var thingToSave = {
-//             name: name,
-//             link: $(element).attr("href"),
-//           };
-// LawmakersModel.create(thingToSave).then(function(stuffFromDb){
-//   console.log("stuffFromDB", stuffFromDb)
-// })
-//         });
-//         console.log(results);
-//       });      
-//routes
-app.get("/home", function(req, res) {
+/*/----------------------------------------
+Routes
+----------------------------------------/*/
+app.get("/home", function (req, res) {
 //req for form, res is respond/shoot something to the google chrome
-//think we can do array with handlebars, and we can do for-each on the page
-//on the otherhand, we can do delete and update with ajax
-db.Lawmakers.find({})
-.thenfunction(error, found) {
-  // Log any errors if the server encounters one
-  if (error) {
-    console.log(error);
-  }
-  // Otherwise, send the result of this query to the browser
-  else {
-    res.render('home', { Lawmakers: found })
-    //found is good from db
-  }
+  //think we can do array with handlebars, and we can do for-each on the page
+  //on the otherhand, we can do delete and update with ajax
+  db.Lawmakers.find({})
+    .populate("comments")
+    .then(function (allLawmakers) {
+      console.log(allLawmakers)
+      //send the result of this query to the browser
+      res.render('home', { Lawmakers: allLawmakers })
+      //found is good from db
+    })
+    .catch(function (err) {
+      // Log any errors if the server encounters one
+      console.log(err)
+    });
 });
-
-})
-app.get("/all-lawmakers", function(req, res) {
   //THIS GETS US ON LIVEWIRE! 
   //now mongoose stuff because we interact with the db
   //not connection.query like sql
   //we imported the model so we don't need to add db.Lawmakers
 
+app.get("/scrape/lawmakers", function (req, res) {
+axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")
+  .then(function (response) {
+    var $ = cheerio.load(response.data);
+    var results = [];
+
+    $(".noU3").each(function (i, element) {
+      var name = $(element).text();
+      var thingToSave = {
+        name: name,
+        link: $(element).attr("href")
+      };
+      db.Lawmakers.create(thingToSave)
+        .then(function (stuffFromDb) {
+          results.push(stuffFromDb)
+        })
+    });
+    res.json(results)
+  });
 });
 
-app.listen(3000, function(){
+app.post("/comment/lawmakers/:id", function (req, res) {
+  console.log("test")
+  db.Comment.create(req.body)
+    .then(function (newComment) {
+      return db.Lawmakers.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: newComment._id } }, { new: true });
+    })
+    .then(function (lawmakers) {
+      res.json(lawmakers)
+    })
+    .catch(function (err) {
+      console.log(err)
+    })
+})
+
+app.listen(3000, function () {
   console.log("website is on")
 })
