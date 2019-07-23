@@ -33,7 +33,7 @@ mongoose.connect("mongodb://localhost/hawaiiLawmakers", { useNewUrlParser: true 
 /*/----------------------------------------
 Routes
 ----------------------------------------/*/
-app.get("/home", function (req, res) {
+app.get("/", function (req, res) {
 //req for form, res is respond/shoot something to the google chrome
   //think we can do array with handlebars, and we can do for-each on the page
   //on the otherhand, we can do delete and update with ajax
@@ -50,6 +50,14 @@ app.get("/home", function (req, res) {
       console.log(err)
     });
 });
+app.get("/saved", function (req, res) {
+  db.Lawmakers.find({})
+  .populate("comments")
+  .then(function (allLawmakers) {
+    console.log(allLawmakers)
+    res.render('saved', { lawmakers: allLawmakers })
+  });
+})  
   //THIS GETS US ON LIVEWIRE! 
 app.get("/scrape/lawmakers", function (req, res) {
 axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")

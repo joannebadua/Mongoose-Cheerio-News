@@ -15,12 +15,23 @@ var LawmakersSchema = new Schema({
   link: {
     type: String
   },
+  phone:  {
+    type: String
+  },
+  email:   {
+    type: String,
+    unique: true,
+    match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
+  },
+  saved: {
+    type: Boolean,
+    default: false
+  },
   comments: [
     {
       type: Schema.Types.ObjectId,
       ref: "Comment"
-    }
-  ]
+    }]
 });
 
 // This creates our model from the above schema, using mongoose's model method

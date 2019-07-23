@@ -5,13 +5,10 @@ var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
 body: {
-    type: string
+    type: String
 },
 author: {
-    type: string
-},
-body: {
-    type: string
+    type: String
 },
 createdAt: {
     type: Date,
