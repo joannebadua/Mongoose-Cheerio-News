@@ -60,21 +60,45 @@ app.get("/saved", function (req, res) {
 })  
   //THIS GETS US ON LIVEWIRE! 
 app.get("/scrape/lawmakers", function (req, res) {
+
+  console.log("Scraping 2!");
+
 axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")
   .then(function (response) {
     var $ = cheerio.load(response.data);
     var results = [];
 
-    $(".noU3").each(function (i, element) {
-      var name = $(element).text();
+    // $(".noU3").each(function (i, element) {
+    //   var name = $(element).text();
+    //   var name = $(element).text();
+    //   var thingToSave = {
+    //     name: name,
+    //     link: $(element).attr("href"),
+    //     phone: phone,
+    //     email: email
+    //   };
+    //   db.Lawmakers.create(thingToSave)
+    //     .then(function (stuffFromDb) {
+    //       results.push(stuffFromDb)
+    //     })
+    // });
+    var counter = 0;
+    $('td').each(function (i, element) {
+      var name = $(element).children('.noU3').text();
+      if (name) {
+        var phone = $(element).children('#ContentPlaceHolderCol1_GridView1_LabelPhone2_'+counter).text();
+        counter++;
+        console.log(name);
+        console.log(phone);
+      }
       var thingToSave = {
         name: name,
-        link: $(element).attr("href")
+        phone: phone
       };
       db.Lawmakers.create(thingToSave)
-        .then(function (stuffFromDb) {
-          results.push(stuffFromDb)
-        })
+      .then(function (stuffFromDb) {
+        results.push(stuffFromDb)
+      })
     });
     res.json(results)
   });

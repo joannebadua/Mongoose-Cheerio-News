@@ -17,6 +17,8 @@
 <div>
     <h3>{{name}}</h3>
     <a href="{{link}}">View Representative</a>
+    <p>{{phone}}</p>
+    <p>{{email}}</p>
     <button class="add-comment" data-id={{_id}}>Add a comment</button>
     {{#each comments}}
     <div data-cid={{_id}}>
@@ -44,6 +46,7 @@
 
     <script>
         $("#scrape").on("click", function () {
+            console.log("Scraping!");
             // go scrape site for lawmakers
             $.get("/scrape/lawmakers", function (response) {
                 console.log(response)
