@@ -16,10 +16,9 @@ body: {
 createdAt: {
     type: Date,
     default: Date.now
+// custom method for time
 }
 });
 
 var Comment = mongoose.model("Comment", CommentSchema);
-//custom method for time
-
 module.exports = Comment;

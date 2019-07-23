@@ -51,10 +51,6 @@ app.get("/home", function (req, res) {
     });
 });
   //THIS GETS US ON LIVEWIRE! 
-  //now mongoose stuff because we interact with the db
-  //not connection.query like sql
-  //we imported the model so we don't need to add db.Lawmakers
-
 app.get("/scrape/lawmakers", function (req, res) {
 axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")
   .then(function (response) {

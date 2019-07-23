@@ -1,22 +1,79 @@
-<h1>hello from handlebars!</h1>
-<div id="comment-form"> 
-    <input id="title">
-    </input>
+<style>
+    .hide {
+        display: none !important;
+    }
 
-    <input id="body">
-    </input>
-    <button>Saved</button>
+    .comment-form {
+        display: block;
+    }
+</style>
+
+<h1>Hawai`i Lawmakers need to Hear Your Voice!</h1>
+
+<button id="scrape">Get Lawmakers</button>
+{{#each Lawmakers}}
+<div>
+    <h3>{{name}}</h3>
+    <a href="{{link}}">View Representative</a>
+    <button class="add-comment" data-id={{_id}}>Add a comment</button>
+    {{#each comments}} 
+        <div data-cid={{_id}}>
+            <p>{{body}}</p>
+            <p>{{author}}</p>
+            <p>{{createdAt}}</p>
+        </div>
+    {{/each}}
+    {{#unless comments}}
+        NO comments!
+    {{/unless}}
 </div>
- {{#each Lawmakers}}
- <h1>{{this.name}}</h1>
- {{!-- //name is from lawmakers.js name --}}
-<p>{{this.link}}</p>
-<button>Comment</button>
+<hr/>
 {{/each}}
+{{#unless Lawmakers}}
+    <h3>No Lawmakers to show yet!</h3>
+{{/unless}}
 
-
+<form class="comment-form hide">
+    <label>Your Comment:</label>
+    <textarea id="body" name="body" required></textarea>
+    <label>Your name:</label>
+    <input id="author" type="text" name="author" placeholder="John Doe" required>
+    <button class="new-comment">Submit</button>
+</form>
 
 <script>
-    //jquery to hide and then show
-$("#comment-form").hide()
+    $("#scrape").on("click", function(){
+        // go scrape site for lawmakers
+        $.get("/scrape/lawmakers", function(response){
+            console.log(response)
+        });
+    });
+
+    $(".add-comment").on("click", function(){
+        var id = $(this).data("id"); // rep id
+
+        // add the represtative's id to the form
+        $(".new-comment").attr("data-id", id);
+        $(".comment-form").removeClass("hide");
+    });
+
+    $('.new-comment').on("click", function(event){
+       
+        event.preventDefault();
+        var id = $(this).data("id");
+
+        var comment = {
+            body: $("#body").val().trim(),
+            author: $("#author").val().trim()
+        }
+
+        $("#body, #author").val("");
+        $(".new-comment").attr("data-id", "");
+        $(".comment-form").addClass("hide")
+        $.post("/comment/lawmakers/"+ id, comment, function(respose){
+            console.log(respose)
+        })
+        //console.log(comment)
+    })
+
 </script>
