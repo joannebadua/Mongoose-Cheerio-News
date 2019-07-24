@@ -40,7 +40,7 @@ app.get("/", function (req, res) {
   db.Lawmakers.find({})
     .populate("comments")
     .then(function (allLawmakers) {
-      console.log(allLawmakers)
+      console.log("LAWMAKERS: ", allLawmakers);
       //send the result of this query to the browser
       res.render('home', { Lawmakers: allLawmakers })
       //found is good from db
