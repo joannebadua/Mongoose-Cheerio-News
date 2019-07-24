@@ -94,6 +94,7 @@ axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")
         name: name,
         phone: phone
       };
+      console.log(thingToSave);
       db.Lawmakers.create(thingToSave)
       .then(function (stuffFromDb) {
         results.push(stuffFromDb)

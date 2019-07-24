@@ -9,19 +9,11 @@ var LawmakersSchema = new Schema({
   // `title` is required and of type String
   name: {
     type: String,
-    unique: true
+    unique: false
   },
   // `link` is required and of type String
-  link: {
-    type: String
-  },
   phone:  {
     type: String
-  },
-  email:   {
-    type: String,
-    unique: true,
-    match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
   },
   saved: {
     type: Boolean,

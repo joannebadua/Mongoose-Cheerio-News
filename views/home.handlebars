@@ -18,16 +18,15 @@
     <h3>{{name}}</h3>
     <a href="{{link}}">View Representative</a>
     <p>{{phone}}</p>
-    <p>{{email}}</p>
     <button class="add-comment" data-id={{_id}}>Add a comment</button>
-    {{#each comments}}
+    {{#each Comment}}
     <div data-cid={{_id}}>
         <p>{{body}}</p>
         <p>{{author}}</p>
         <p>{{createdAt}}</p>
     </div>
     {{/each}}
-    {{#unless comments}}
+    {{#unless Comment}}
     <span id="comment-{{_id}}">NO comments! </span>
     {{/unless}}
     </div> <hr />
@@ -75,8 +74,8 @@
             $("#body, #author").val("");
             $(".new-comment").attr("data-id", "");
             $(".comment-form").addClass("hide")
-            $.post("/comment/lawmakers/" + id, comment, function (respose) {
-                console.log(respose)
+            $.post("/comment/lawmakers/" + id, comment, function (response) {
+                console.log(response)
             })
             //console.log(comment)
         })
