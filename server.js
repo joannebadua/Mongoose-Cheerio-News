@@ -90,15 +90,16 @@ axios.get("https://www.capitol.hawaii.gov/members/legislators.aspx?chamber=all")
         counter++;
         console.log(name);
         console.log(phone);
-      }
-      var thingToSave = {
+       var thingToSave = {
         name: name,
         phone: phone
       };
       db.Lawmakers.create(thingToSave)
       .then(function (stuffFromDb) {
         results.push(stuffFromDb)
-      })
+      });
+    }
+     
     });
     res.json(results)
   });

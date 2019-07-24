@@ -37,5 +37,5 @@ var LawmakersSchema = new Schema({
 // This creates our model from the above schema, using mongoose's model method
 var Lawmakers = mongoose.model("Lawmakers", LawmakersSchema);
 
-// Export the Article model
+// Export the Lawmakers model
 module.exports = Lawmakers;
