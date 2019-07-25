@@ -7,7 +7,8 @@ var axios = require("axios");
 var mongoose = require("mongoose");
 var db = require("./models/") //access to both models 
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
+
 
 /*/----------------------------------------
 Configuration
@@ -28,7 +29,8 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/hawaiiLawmakers", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/lawmakers";
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useFindAndModify: false }).then(() => console.log("Connected to db")).catch((err) => console.log(err));
 
 /*/----------------------------------------
 Routes
