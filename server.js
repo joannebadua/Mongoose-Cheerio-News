@@ -122,6 +122,6 @@ app.post("/comment/lawmakers/:id", function (req, res) {
     })
 })
 
-app.listen(3000, function () {
-  console.log("website is on")
+app.listen(PORT, function () {
+  console.log("website is on");
 })
