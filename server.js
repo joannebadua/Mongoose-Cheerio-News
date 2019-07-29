@@ -5,7 +5,7 @@ var express = require("express");
 var cheerio = require("cheerio");
 var axios = require("axios");
 var mongoose = require("mongoose");
-var db = require("./models/") //access to both models 
+var db = require("./models") //access to both models 
 
 var PORT = process.env.PORT || 3000;
 
